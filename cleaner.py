@@ -19,6 +19,8 @@ def job_expired(max_age, timeout_seconds, job):
 
     if status.get('succeeded') or status.get('failed'):
         completion_time = status.get('completionTime')
+    elif status.get('type') == 'Failed':
+        completion_time = status.get('lastTransitionTime')
     elif not status:
         # this can happen if the image policy webhook prevents job pods
         # from being created, fall back to creationTimestamp
